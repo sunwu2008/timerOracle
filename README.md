@@ -1,18 +1,19 @@
 # timerOracle
 input SQL and the set timer to run it. The SQL is executed at the scheduled time. Users can download the resulting CSV from the provided link.
 
-
+Directory structure
 /app
   timerSql.py
   config.ini
   /templates
     index.html
   /static
-    styles.css
-
+    styles.css    
+create directory templates, copy index.html to this directory. 
+create directory static,copy styles.css to this directory.
 
 1 timerSql.py 
-Importing required modules.
+Importing required modules:Flask Cx_oracle APScheduler
 Initializing Flask application.
 Reading the database configuration.
 Setting up a background scheduler.

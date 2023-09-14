@@ -37,7 +37,7 @@ Several Flask routes:
 @app.route('/'): Renders the index.html template and displays all scheduled tasks.
 @app.route('/schedule_job', methods=['POST']): Allows users to schedule tasks by providing an SQL query and a time to run the query. The task is then added to the SQLite database and the APScheduler is used to schedule the task.
 @app.route('/download/<filename>'): Allows users to download the result CSV files.
-Task Execution: The execute_sql function connects to the MySQL database, runs the provided SQL query, and saves the result in a CSV file. Once the task is completed, its status is updated in the SQLite database.
+Task Execution: The execute_sql function connects to the database, runs the provided SQL query, and saves the result in a CSV file. Once the task is completed, its status is updated in the SQLite database.
 
 APScheduler: The APScheduler runs in the background and calls the execute_sql function at the specified times.
 

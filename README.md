@@ -41,7 +41,6 @@ Task Execution: The execute_sql function connects to the database, runs the prov
 
 APScheduler: The APScheduler runs in the background and calls the execute_sql function at the specified times.
 
-
 2 The index.html file is a template for displaying the main interface of the SQL Scheduler web application. It provides:
 
 A form where users can enter an SQL query and specify a time for the query to be executed.

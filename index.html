@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Scheduler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function setDefaultExecutionTime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 2);  // Add 2 minutes to the current time
+
+            const formattedDate = now.getFullYear() + '-'
+                + String(now.getMonth() + 1).padStart(2, '0') + '-'
+                + String(now.getDate()).padStart(2, '0') + ' '
+                + String(now.getHours()).padStart(2, '0') + ':'
+                + String(now.getMinutes()).padStart(2, '0') + ':'
+                + String(now.getSeconds()).padStart(2, '0');
+
+            document.getElementById('execution-time-input').value = formattedDate;
+        }
+
+
+        function refreshTasks() {
+            fetch('/get_latest_tasks')
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody = document.querySelector('tbody');
+                    data.tasks.forEach(task => {
+                        let row = document.getElementById('task-' + task.id);
+                        if (row) {
+                            row.querySelector('.status').innerText = task.status;
+                            let cell = row.querySelector('.download-cell');
+                            if (task.status === 'completed' && !cell.querySelector('.download-link')) {
+                                let link = document.createElement('a');
+                                link.href = "/download/" + task.filename;
+                                link.innerText = "Download CSV";
+                                link.className = "download-link";
+                                cell.appendChild(link);
+                            }
+                        }
+                    });
+                });
+        }
+
+        // Polling every 10 seconds
+        setInterval(refreshTasks, 10000);
+    </script>
+</head>
+
+<body onload="setDefaultExecutionTime(); refreshTasks();">
+    <h1>Enter SQL Query</h1>
+    <form action="/schedule_job" method="post">
+        <textarea name="query" rows="5" cols="50"></textarea><br>
+        Execution time (YYYY-MM-DD HH:MM:SS format):
+        <input type="text" name="time_to_run" id="execution-time-input"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Scheduled Tasks</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>SQL Query</th>
+                <th>Execution Time</th>
+                <th>Status</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr id="task-{{ task[0] }}">
+                <td>{{ task[1] }}</td>
+                <td>{{ task[2] }}</td>
+                <td class="status">{{ task[3] }}</td>
+                <td class="download-cell">
+                    {% if task[3] == 'completed' %}
+                    <a href="/download/{{ task[4] }}" class="download-link">Download CSV</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

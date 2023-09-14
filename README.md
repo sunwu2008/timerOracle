@@ -3,11 +3,11 @@ Users input SQL and the time to run it. The SQL is executed at the scheduled tim
 
 
 /app
-  _timerSql.py
-  _config.ini
-  _/templates
-    _index.html
-  _/static
+  timerSql.py
+  config.ini
+  /templates
+    index.html
+  /static
     _styles.css
 
 

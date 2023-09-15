@@ -21,10 +21,11 @@ DB_CONFIG = {
     'password': config.get('oracle', 'password'),
     'sid': config.get('oracle', 'sid')
 }
-
+#scheduler server
 scheduler = BackgroundScheduler()
 scheduler.start()
 
+# Log database 
 DATABASE_NAME = "tasks.db"
 
 

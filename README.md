@@ -6,13 +6,13 @@ Directory structure
 <img title="list"  src="list.png">
 
 
-/app 
+/app<br/> 
     timerSql.py 
-    config.ini 
-    /templates 
-        index.html 
-    /static 
-        styles.css
+    config.ini<br/> 
+    /templates<br/> 
+        index.html <br/>
+    /static <br/>
+        styles.css<br/>
 create directory templates, copy index.html to this directory. create directory static,copy styles.css to this directory.
 
 1 timerSql.py Importing required modules:Flask Cx_oracle APScheduler Initializing Flask application. Reading the database configuration. 

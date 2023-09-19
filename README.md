@@ -2,6 +2,7 @@ timerOracle
 input SQL and the set timer to run it. The SQL is executed at the scheduled time. Users can download the resulting CSV from the provided link.
 
 Directory structure 
+<img title="list"  src="list.png">
 /app 
     timerSql.py 
     config.ini 

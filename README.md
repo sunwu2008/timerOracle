@@ -19,3 +19,5 @@ Flask routes for: Main index Scheduling jobs Downloading CSV files Executing SQL
 APScheduler: The APScheduler runs in the background and calls the execute_sql function at the specified times.
 
 2 index.html file is a template for displaying the main interface of the SQL Scheduler web application. It provides: A form where users can enter an SQL query or upload sql filw and specify a time for the query to be executed. A table displaying all scheduled tasks, their execution time, status, and download links for completed tasks.
+
+<img title="UI"  src="UI.png">

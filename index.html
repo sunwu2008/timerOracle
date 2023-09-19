@@ -21,7 +21,6 @@
             document.getElementById('execution-time-input').value = formattedDate;
         }
 
-
         function refreshTasks() {
             fetch('/get_latest_tasks')
                 .then(response => response.json())
@@ -44,19 +43,45 @@
                 });
         }
 
+        function deleteRow(taskId) {
+            const confirmation = confirm("Are you sure you want to delete this task?");
+            if (confirmation) {
+                // Remove the row from the table
+                const row = document.getElementById('task-' + taskId);
+                if (row) {
+                    row.remove();
+                }
+                
+                // Make an API call to the server to delete the task
+                fetch(`/delete_task/${taskId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (!response.ok) {
+                        alert('Error deleting task.');
+                    }
+                });
+            }
+        }
+
         // Polling every 10 seconds
         setInterval(refreshTasks, 10000);
     </script>
 </head>
 
 <body onload="setDefaultExecutionTime(); refreshTasks();">
-    <h1>Enter SQL Query</h1>
-    <form action="/schedule_job" method="post">
-        <textarea name="query" rows="5" cols="50"></textarea><br>
-        Execution time (YYYY-MM-DD HH:MM:SS format):
-        <input type="text" name="time_to_run" id="execution-time-input"><br>
-        <input type="submit" value="Submit">
-    </form>
+
+	<h1>Enter SQL Query  or Upload SQL File </h1>
+<form action="/schedule_job" method="post" enctype="multipart/form-data">
+
+    <textarea name="query" rows="5" cols="50" placeholder="Enter SQL query here..."></textarea><br>
+	    OR<br><br>
+	    <label for="sqlfile">Upload SQL File:</label>
+    <input type="file" name="sqlfile" accept=".sql"><br><br>
+
+    Execution time (YYYY-MM-DD HH:MM:SS format):
+    <input type="text" name="time_to_run" id="execution-time-input"><br>
+    <input type="submit" value="Submit">
+</form>
+
 
     <h2>Scheduled Tasks</h2>
     <table border="1">
@@ -66,6 +91,7 @@
                 <th>Execution Time</th>
                 <th>Status</th>
                 <th>Download</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -79,6 +105,7 @@
                     <a href="/download/{{ task[4] }}" class="download-link">Download CSV</a>
                     {% endif %}
                 </td>
+                <td><button onclick="deleteRow({{ task[0] }})">Delete</button></td>
             </tr>
             {% endfor %}
         </tbody>
